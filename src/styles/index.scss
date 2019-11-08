@@ -1,0 +1,43 @@
+$left-width: 65%;
+$right-width: 100% - $left-width;
+$nav-height: 28px;
+
+body {
+  display: flex;
+  height: 100%;
+  margin: 0;
+}
+
+#leftContainer {
+  background-color: aqua;
+  width: $left-width;
+  >div {
+    width: $left-width;
+  }
+}
+#rightContainer {
+  width: $right-width;
+  background-color: lawngreen;
+  >div {
+    width: $right-width;
+  }
+}
+#leftUp,#leftDown,#rightUp,#rightDown {
+  position: fixed;
+  width: 100%;
+  height: $nav-height;
+  background-color: coral;
+}
+#leftDown,#rightDown {
+  bottom: 0;
+}
+#leftMiddle,#rightMiddle {
+  position: fixed;
+  top: $nav-height;
+  height: calc(100% - #{$nav-height * 2});
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
