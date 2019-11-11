@@ -2,6 +2,7 @@ import geojsonhint from '@mapbox/geojsonhint';
 import _ from 'lodash';
 
 import emitter from '../ev';
+import _JSON from '../utils/json';
 import {Point, LineString, Polygon, FeatureCollection} from '../features';
 
 function geojsonTransform(jsonStr){
@@ -59,7 +60,7 @@ function geojsonTransform(jsonStr){
       i--;
     }
   }
-  return JSON.stringify(jsonObject, null, 2);
+  return _JSON.stringify(jsonObject);
 }
 
 export default geojsonTransform;

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import emitter from '../ev';
+import _JSON from '../utils/json';
 import {LineString, Point, Polygon} from '../features';
 
 function handleDelete(self, e){
@@ -20,7 +21,7 @@ function handleDelete(self, e){
     }
     newObj = _.cloneDeep(deleteObj(newObj, toDeleteObj));
   });
-  emitter.emit('text', JSON.stringify(newObj, null, 2));
+  emitter.emit('text', _JSON.stringify(newObj));
 }
 
 function deleteObj(oldObj, toDeleteObj){

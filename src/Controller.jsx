@@ -2,8 +2,9 @@ import geojsonhint from '@mapbox/geojsonhint';
 import rewinder from '@mapbox/geojson-rewind';
 
 import emitter from './ev';
+import _JSON from './utils/json';
 import {Point, LineString, Polygon} from './features';
-import {handleCreate, handleDelete} from './handlers';
+import {handleCreate, handleDelete, handleEdit} from './handlers';
 
 class Controller {
   constructor(){
@@ -15,15 +16,15 @@ class Controller {
     emitter.on('deleteObj', (e) => {
       handleDelete(self, e);
     });
+    emitter.on('editObj', (e) => {
+      handleEdit(self, e);
+    });
   }
   updateJSON(newJSON){
-    try {
-      this.jsonObj = JSON.parse(newJSON);
-    }
-    catch(e) {
-      console.log(e);
-      return;
-    }
+    let jsonObj, err;
+    [jsonObj, err] = _JSON.parse(newJSON);
+    if(!err) this.jsonObj = jsonObj;
+    else console.log(err);
 
     let geojsonErr = geojsonhint.hint(this.jsonObj);
     if(geojsonErr.length === 0){

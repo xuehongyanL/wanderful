@@ -1,4 +1,5 @@
 import emitter from '../ev';
+import _JSON from '../utils/json';
 import {LineString, Point, Polygon} from '../features';
 
 function handleCreate(self, e){
@@ -16,7 +17,7 @@ function handleCreate(self, e){
   default:
     break;
   }
-  emitter.emit('text', JSON.stringify(newObj, null, 2));
+  emitter.emit('text', _JSON.stringify(newObj));
 }
 
 export default handleCreate;
