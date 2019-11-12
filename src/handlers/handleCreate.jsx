@@ -6,14 +6,14 @@ function handleCreate(self, e){
   let newObj = self.jsonObj;
   switch(e.layerType){
   case 'circlemarker':
-    newObj.features.push(Point(e.layer._latlng));
+    newObj.features.push(Point(e.layer._latlng, {}));
     break;
   case 'polyline':
-    newObj.features.push(LineString(e.layer._latlngs));
+    newObj.features.push(LineString(e.layer._latlngs, {}));
     break;
   case 'polygon':
   case 'rectangle':
-    newObj.features.push(Polygon(e.layer._latlngs));
+    newObj.features.push(Polygon(e.layer._latlngs, {}));
   default:
     break;
   }

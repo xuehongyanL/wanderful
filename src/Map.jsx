@@ -1,5 +1,6 @@
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Map.scss';
 
 import React from 'react';

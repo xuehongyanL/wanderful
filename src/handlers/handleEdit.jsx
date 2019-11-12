@@ -4,23 +4,24 @@ import emitter from '../ev';
 import _JSON from '../utils/json';
 import {LineString, Point, Polygon} from '../features';
 import {coordTransform} from '../utils/coordTransform';
+import _featureEqual from '../utils/featureCompare';
 
 function handleEdit(self, e){
   let newObj = _.cloneDeep(self.jsonObj);
   _.forEach(e.layers._layers, (layer) => {
     let toEditObj, toReplaceObj;
     if(_.has(layer, '_latlng')){
-      toEditObj = Point(coordTransform(layer.options.center, 'latlngArr', 'latlngObj'));
-      toReplaceObj = Point(layer._latlng);
+      toEditObj = Point(coordTransform(layer.options.center, 'latlngArr', 'latlngObj'), layer.options);
+      toReplaceObj = Point(layer._latlng, layer.options);
     }
     else if(_.has(layer, '_latlngs')){
       if(layer._latlngs.length === 1){
-        toEditObj = Polygon([coordTransform(layer.options.positions, 'latlngArr', 'latlngObj')]);
-        toReplaceObj = Polygon(layer._latlngs);
+        toEditObj = Polygon([coordTransform(layer.options.positions, 'latlngArr', 'latlngObj')], layer.options);
+        toReplaceObj = Polygon(layer._latlngs, layer.options);
       }
       else{
-        toEditObj = LineString(coordTransform(layer.options.positions, 'latlngArr', 'latlngObj'));
-        toReplaceObj = LineString(layer._latlngs);
+        toEditObj = LineString(coordTransform(layer.options.positions, 'latlngArr', 'latlngObj'), layer.options);
+        toReplaceObj = LineString(layer._latlngs, layer.options);
       }
     }
     newObj = _.cloneDeep(editObj(newObj, toEditObj, toReplaceObj));
@@ -30,8 +31,8 @@ function handleEdit(self, e){
 
 function editObj(oldObj, toEditObj, toReplaceObj){
   let newObj = oldObj.features;
-  let editIdx = _.findIndex(newObj, (obj) => _.isEqual(obj, toEditObj));
-  if(editIdx !== -1) newObj[editIdx] = toReplaceObj;
+  let editIdx = _.findIndex(newObj, (obj) => _featureEqual(obj, toEditObj));
+  if(editIdx !== -1) newObj[editIdx].geometry = toReplaceObj.geometry;
   oldObj.features = newObj;
   return oldObj;
 }
