@@ -1,3 +1,29 @@
 .sr-only {
   display: none;
 }
+
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 0;
+  .leaflet-popup-content {
+    margin: 0;
+    width: 300 !important;
+    .q-list {
+      margin: 0;
+    }
+  }
+  .list-group {
+    .popupTitle {
+      font-size: 1.75em;
+    }
+    .list-group-item {
+      padding: 0.5rem 0.5rem;
+    }
+  }
+  .clearfix {
+    padding: 0.5rem;
+    :nth-child(2) {
+      margin-left: 0.3rem;
+    }
+  }
+}

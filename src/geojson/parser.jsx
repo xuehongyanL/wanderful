@@ -1,32 +1,21 @@
 import React from 'react';
 import _ from 'lodash';
-import {Polyline, CircleMarker, Polygon} from 'react-leaflet';
+import {Polyline, CircleMarker, Polygon, Popup} from 'react-leaflet';
+
+import {featureConfig} from '../config';
+import createLineStringComponent from '../components/LineStringComponent';
+import createPointComponent from '../components/PointComponent';
+import createPolygonComponent from '../components/PolygonComponent';
 
 function geojsonParse(feature, idx){
-  if(!feature) return null;
-  let randomKey = _.random(0, 10000000);
+  if(_.has(feature, 'geometry.type') === false) return null;
   switch(feature.geometry.type){
   case 'LineString':
-    return (
-      <Polyline
-        key={randomKey}
-        positions={feature.geometry.coordinates.map((plot)=>[plot[1], plot[0]])}
-      />
-    );
+    return createLineStringComponent(feature);
   case 'Point':
-    return (
-      <CircleMarker
-        key={randomKey}
-        center={[feature.geometry.coordinates].map((plot)=>[plot[1], plot[0]])[0]}
-      />
-    );
+    return createPointComponent(feature);
   case 'Polygon':
-    return (
-      <Polygon
-        key={randomKey}
-        positions={_.initial(feature.geometry.coordinates[0]).map((plot)=>[plot[1], plot[0]])}
-      />
-    );
+    return createPolygonComponent(feature);
   default:
     return null;
   }
