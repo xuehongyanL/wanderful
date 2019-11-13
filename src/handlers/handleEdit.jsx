@@ -24,15 +24,18 @@ function handleEdit(self, e){
         toReplaceObj = LineString(layer._latlngs, layer.options);
       }
     }
-    newObj = _.cloneDeep(editObj(newObj, toEditObj, toReplaceObj));
+    newObj = _.cloneDeep(editObj(newObj, toEditObj, toReplaceObj, layer.options.properties));
   });
   emitter.emit('text', _JSON.stringify(newObj));
 }
 
-function editObj(oldObj, toEditObj, toReplaceObj){
+function editObj(oldObj, toEditObj, toReplaceObj, properties){
   let newObj = oldObj.features;
   let editIdx = _.findIndex(newObj, (obj) => _featureEqual(obj, toEditObj));
-  if(editIdx !== -1) newObj[editIdx].geometry = toReplaceObj.geometry;
+  if(editIdx !== -1){
+    newObj[editIdx].geometry = toReplaceObj.geometry;
+    if(!_.isNil(properties)) newObj[editIdx].properties = properties;
+  }
   oldObj.features = newObj;
   return oldObj;
 }

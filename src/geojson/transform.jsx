@@ -66,7 +66,7 @@ function geojsonTransform(jsonStr){
     let feature = jsonObject.features[i];
     jsonObject.features[i].properties = _.pick(feature.properties, _.filter(
       _.keys(feature.properties),
-      (elem)=>(
+      (elem) => (
         _.includes(featureConfig.validKeys[feature.geometry.type], elem)
       )
     ));

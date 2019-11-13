@@ -1,9 +1,6 @@
-let jsonConfig = {
-  replacer: null,
-  space: 2
-};
+import validator from './validators';
 
-let featureConfig = {
+const featureConfig = {
   default: {
     color: '#3388ff',
     weight: 3,
@@ -18,13 +15,14 @@ let featureConfig = {
     opacity: 'number',
     fillColor: 'color',
     fillOpacity: 'number',
-    fadius: 'number',
+    radius: 'number',
   },
   validKeys: {
     'LineString': ['color', 'weight', 'opacity'],
     'Point': ['radius', 'color', 'weight', 'opacity', 'fillColor', 'fillOpacity'],
     'Polygon': ['color', 'weight', 'opacity', 'fillColor', 'fillOpacity'],
-  }
+  },
+  validator: validator
 };
 
-export {jsonConfig, featureConfig};
+export default featureConfig;
