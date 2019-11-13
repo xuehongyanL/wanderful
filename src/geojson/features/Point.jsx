@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {featureConfig} from '../config';
+import {featureConfig} from '../../config';
 
 function Point(latlng, properties){
   // console.log(JSON.stringify(properties.fillColor), properties.fillColor, properties['fillColor'], _.pick(properties, ['fillColor']));

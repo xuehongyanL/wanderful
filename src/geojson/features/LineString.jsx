@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {featureConfig} from '../config';
+import {featureConfig} from '../../config';
 
 function LineString(latlngs, properties){
   return {
@@ -8,7 +8,7 @@ function LineString(latlngs, properties){
     'properties': _.pick(properties, featureConfig.validKeys['LineString']),
     'geometry': {
       'type': 'LineString',
-      'coordinates': latlngs.map((latlng) => [latlng.lng, latlng.lat])
+      'coordinates': _.map(latlngs, (latlng) => [latlng.lng, latlng.lat])
     }
   };
 }

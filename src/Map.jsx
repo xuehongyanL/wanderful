@@ -59,7 +59,7 @@ class MapComponent extends React.Component {
             }}
           />
           {
-            this.state.jsonObj.features.map((feature) => (
+            _.map(this.state.jsonObj.features, (feature) => (
               geojsonParse(feature)
             ))
           }

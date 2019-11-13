@@ -1,6 +1,6 @@
 import emitter from '../ev';
 import _JSON from '../utils/json';
-import {LineString, Point, Polygon} from '../features';
+import {LineString, Point, Polygon} from '../geojson/features';
 
 function handleCreate(self, e){
   let newObj = self.jsonObj;

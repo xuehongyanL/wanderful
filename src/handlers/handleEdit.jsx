@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import emitter from '../ev';
 import _JSON from '../utils/json';
-import {LineString, Point, Polygon} from '../features';
+import {LineString, Point, Polygon} from '../geojson/features';
 import {coordTransform} from '../utils/coordTransform';
 import _featureEqual from '../utils/featureCompare';
 

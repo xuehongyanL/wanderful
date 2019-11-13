@@ -51,7 +51,7 @@ function coordTransform(origin, fromMode, toMode){
     return coordTransformSingleRecord(origin, fromMode, toMode);
   }
   else{
-    return origin.map((rec) => (
+    return _.map(origin, (rec) => (
       coordTransform(rec, fromMode, toMode)
     ));
   }
