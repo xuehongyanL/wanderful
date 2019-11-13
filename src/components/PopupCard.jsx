@@ -2,24 +2,48 @@ import React from 'react';
 import _ from 'lodash';
 import {Button, Input, InputGroup, ListGroup, ListGroupItem} from 'reactstrap';
 
+import emitter from '../ev';
 import {featureConfig} from '../config';
+import {createEvent} from '../utils/createEvent';
 
 class PopupCard extends React.Component {
   constructor(props){
     super(props);
     this.state = {};
+    this.geometry = props.feature.geometry;
     _.forEach(props.validKeys, (key) => {
-      this.state[key] = props.feature[key] || featureConfig.default[key];
+      this.state[key] = props.feature.properties[key] || featureConfig.default[key];
     });
+  }
+  _checkInput(){
+    let valid = true;
+    _.forEach(this.props.validKeys, (key) => {
+      if(!featureConfig.validator(this.state[key], key)) {
+        valid = false;
+        return false;
+      }
+    });
+    if(valid) return _.pickBy(this.state, (value, key) => (this.state[key] !== featureConfig.default[key]));
+    return null;
   }
   _onClosePopup(){
     this.props.closeRef.current.leafletElement.options.leaflet.map.closePopup();
   }
   _onUpdate(){
-    console.log(this.state);
+    let newProperties = this._checkInput();
+    if(_.isNil(newProperties)) return;
+    emitter.emit('editObj', createEvent({
+      'type': 'Feature',
+      'properties': newProperties,
+      'geometry': this.geometry
+    }));
   }
   _onDelete(){
-    this.props.closeRef.current.leafletElement.options.leaflet.map.closePopup();
+    emitter.emit('deleteObj', createEvent({
+      'type': 'Feature',
+      'properties': {},
+      'geometry': this.geometry
+    }));
   }
   render(){
     return (
@@ -28,22 +52,27 @@ class PopupCard extends React.Component {
           <span className={'popupTitle'}>Properties</span>
         </ListGroupItem>
         {
-          _.map(this.props.validKeys, (key, idx) => (
-            <ListGroupItem key={_.random(0, 10000000)}>
-              <InputGroup size={'sm'}>
-                <Input value={key} readOnly />
-                <Input
-                  type={featureConfig.type[key]}
-                  value={this.state[key]}
-                  onChange={(e)=>{
-                    let value = e.target.value;
-                    if(featureConfig.type[key] === 'number') value = Number(value);
-                    this.setState({[key]: value});
-                  }}
-                />
-              </InputGroup>
-            </ListGroupItem>
-          ))
+          _.map(this.props.validKeys, (key, idx) => {
+            let valid = featureConfig.validator(this.state[key], key);
+            return (
+              <ListGroupItem key={_.random(0, 10000000)}>
+                <InputGroup size={'sm'}>
+                  <Input value={key} readOnly />
+                  <Input
+                    invalid={!valid}
+                    valid={valid}
+                    type={featureConfig.type[key]}
+                    value={this.state[key]}
+                    onChange={(e) => {
+                      let value = e.target.value;
+                      if(featureConfig.type[key] === 'number') value = Number(value);
+                      this.setState({[key]: value});
+                    }}
+                  />
+                </InputGroup>
+              </ListGroupItem>
+            );
+          })
         }
         <ListGroupItem className={'clearfix'}>
           <Button

@@ -8,7 +8,7 @@ function Point(latlng, properties){
     'type': 'Feature',
     'properties': _.pick(properties, _.filter(
       _.keys(properties),
-      (elem)=>(
+      (elem) => (
         _.includes(featureConfig.validKeys['Point'], elem)
       )
     )),
