@@ -1,9 +1,10 @@
+import _ from 'lodash';
 import geojsonhint from '@mapbox/geojsonhint';
 import rewinder from '@mapbox/geojson-rewind';
 
 import emitter from './ev';
 import _JSON from './utils/json';
-import {Point, LineString, Polygon} from './features';
+import {Point, LineString, Polygon} from './geojson/features';
 import {handleCreate, handleDelete, handleEdit} from './handlers';
 
 class Controller {
@@ -32,7 +33,7 @@ class Controller {
     }
     else{
       console.log(geojsonErr);
-      geojsonErr.forEach((err) => {
+      _.forEach(geojsonErr, (err) => {
         // alert(err.level + ' ' + err.message);
       });
     }

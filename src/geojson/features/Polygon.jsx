@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import rewinder from '@mapbox/geojson-rewind';
 
-import {featureConfig} from '../config';
+import {featureConfig} from '../../config';
 
 function Polygon(latlngs, properties){
   latlngs[0].push(latlngs[0][0]);
@@ -10,7 +10,7 @@ function Polygon(latlngs, properties){
     'properties': _.pick(properties, featureConfig.validKeys['Polygon']),
     'geometry': {
       'type': 'Polygon',
-      'coordinates': [latlngs[0].map((latlng) => [latlng.lng, latlng.lat])]
+      'coordinates': [_.map(latlngs[0], (latlng) => [latlng.lng, latlng.lat])]
     }
   });
 }

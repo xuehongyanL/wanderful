@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import emitter from '../ev';
 import _JSON from '../utils/json';
-import {Point, LineString, Polygon, FeatureCollection} from '../features';
+import {Point, LineString, Polygon, FeatureCollection} from './features';
 import {featureConfig} from '../config';
 
 function geojsonTransform(jsonStr){
@@ -20,7 +20,7 @@ function geojsonTransform(jsonStr){
   for(let i = 0; i < jsonObject.features.length; i++){
     let feature = jsonObject.features[i];
     if(feature.type === 'GeometryCollection'){
-      feature.geometries.forEach((geometry) => {
+      _.forEach(feature.geometries, (geometry) => {
         jsonObject.features.push({
           'type': 'Feature',
           'properties': {},
@@ -34,15 +34,15 @@ function geojsonTransform(jsonStr){
       i--;
     }
     else if(feature.geometry.type === 'MultiPoint'){
-      feature.geometry.coordinates.forEach((coordinate) => {
+      _.forEach(feature.geometry.coordinates, (coordinate) => {
         jsonObject.features.push(Point({lat: coordinate[1], lng: coordinate[0]}, feature.properties));
       });
       jsonObject.features.splice(i, 1);
       i--;
     }
     else if(feature.geometry.type === 'MultiLineString'){
-      feature.geometry.coordinates.forEach((coordinate) => {
-        jsonObject.features.push(LineString(coordinate.map((coord) => ({
+      _.forEach(feature.geometry.coordinates, (coordinate) => {
+        jsonObject.features.push(LineString(_.map(coordinate, (coord) => ({
           lat: coord[1],
           lng: coord[0]
         })), feature.properties));
@@ -51,8 +51,8 @@ function geojsonTransform(jsonStr){
       i--;
     }
     else if(feature.geometry.type === 'MultiPolygon'){
-      feature.geometry.coordinates.forEach((coordinate) => {
-        jsonObject.features.push(Polygon([_.initial(coordinate[0]).map((coord) => ({
+      _.forEach(feature.geometry.coordinates, (coordinate) => {
+        jsonObject.features.push(Polygon([_.map(_.initial(coordinate[0]), (coord) => ({
           lat: coord[1],
           lng: coord[0]
         }))], feature.properties));
