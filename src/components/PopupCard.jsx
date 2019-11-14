@@ -10,9 +10,21 @@ class PopupCard extends React.Component {
   constructor(props){
     super(props);
     this.state = {};
+    this.valid = {};
     this.geometry = props.feature.geometry;
     _.forEach(props.validKeys, (key) => {
-      this.state[key] = props.feature.properties[key] || featureConfig.default[key];
+      if(_.has(props.feature.properties, key) && featureConfig.validator(props.feature.properties[key], key)){
+        this.state[key] = props.feature.properties[key];
+      }
+      else {
+        this.state[key] = featureConfig.default[key];
+      }
+      if(!_.has(props.feature.properties, key) || featureConfig.validator(props.feature.properties[key], key)){
+        this.valid[key] = true;
+      }
+      else {
+        this.valid[key] = false;
+      }
     });
   }
   _checkInput(){
@@ -59,14 +71,16 @@ class PopupCard extends React.Component {
                 <InputGroup size={'sm'}>
                   <Input value={key} readOnly />
                   <Input
-                    invalid={!valid}
-                    valid={valid}
+                    invalid={!this.valid[key]}
+                    valid={this.valid[key]}
                     type={featureConfig.type[key]}
+                    inputkey={key}
                     value={this.state[key]}
                     onChange={(e) => {
                       let value = e.target.value;
                       if(featureConfig.type[key] === 'number') value = Number(value);
                       this.setState({[key]: value});
+                      this.valid[key] = featureConfig.validator(value, key);
                     }}
                   />
                 </InputGroup>

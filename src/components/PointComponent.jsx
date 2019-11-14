@@ -8,16 +8,17 @@ import randomKey from '../utils/randomKey';
 
 function createPointComponent(feature){
   let closeRef = React.createRef();
+  let props = feature.properties;
   return (
     <CircleMarker
       key={randomKey()}
       center={[feature.geometry.coordinates[1], feature.geometry.coordinates[0]]}
-      radius={feature.properties.radius || featureConfig.default.radius}
-      color={feature.properties.color || featureConfig.default.color}
-      weight={feature.properties.weight || featureConfig.default.weight}
-      opacity={feature.properties.opacity || featureConfig.default.opacity}
-      fillColor={feature.properties.fillColor || featureConfig.default.fillColor}
-      fillOpacity={feature.properties.fillOpacity || featureConfig.default.fillOpacity}
+      {
+      ...
+      _.zipObject(featureConfig.validKeys['Point'], _.map(featureConfig.validKeys['Point'], (key) => {
+        return _.isNil(props[key]) ? featureConfig.default[key] : props[key];
+      }))
+      }
     >
       <Popup closeButton={false} ref={closeRef}>
         <PopupCard

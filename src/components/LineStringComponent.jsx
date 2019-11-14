@@ -8,15 +8,17 @@ import randomKey from '../utils/randomKey';
 
 function createLineStringComponent(feature){
   let closeRef = React.createRef();
+  let props = feature.properties;
   return (
     <Polyline
       key={randomKey()}
-      positions={_.map(feature.geometry.coordinates, (plot)=>[plot[1], plot[0]])}
-      color={feature.properties.color || featureConfig.default.color}
-      weight={feature.properties.weight || featureConfig.default.weight}
-      opacity={feature.properties.opacity || featureConfig.default.opacity}
-      fillColor={feature.properties.fillColor || featureConfig.default.fillColor}
-      fillOpacity={feature.properties.fillOpacity || featureConfig.default.fillOpacity}
+      positions={_.map(feature.geometry.coordinates, (plot) => [plot[1], plot[0]])}
+      {
+      ...
+      _.zipObject(featureConfig.validKeys['LineString'], _.map(featureConfig.validKeys['LineString'], (key) => {
+        return _.isNil(props[key]) ? featureConfig.default[key] : props[key];
+      }))
+      }
     >
       <Popup closeButton={false} ref={closeRef}>
         <PopupCard
