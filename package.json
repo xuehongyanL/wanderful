@@ -10,7 +10,13 @@
     "gh-pages": "parcel build index.html --no-content-hash --out-dir docs --public-url ."
   },
   "jest": {
-    "setupFiles": ["<rootDir>/setupTests.js"]
+    "setupFiles": [
+      "<rootDir>/setupTests.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
   },
   "dependencies": {
     "@mapbox/geojson-rewind": "^0.4.0",
@@ -36,7 +42,10 @@
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.6.0",
     "eslint-plugin-react": "^7.16.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
+    "jsdom-worker": "^0.1.0",
+    "node-fetch": "^2.6.0",
     "parcel-bundler": "^1.12.3",
     "sass": "^1.20.3"
   }

@@ -25,19 +25,24 @@ class Controller {
     let jsonObj, err;
     [jsonObj, err] = _JSON.parse(newJSON);
     if(!err) this.jsonObj = jsonObj;
-    else console.log(err);
+    else{
+      console.log(err);
+      return err;
+    }
 
     let geojsonErr = geojsonhint.hint(this.jsonObj);
     if(geojsonErr.length === 0){
       emitter.emit('json', this.jsonObj);
+      return null;
     }
     else{
       console.log(geojsonErr);
       _.forEach(geojsonErr, (err) => {
         // alert(err.level + ' ' + err.message);
       });
+      return geojsonErr;
     }
   }
 }
 
-export default Controller;
+export default new Controller();

@@ -5,7 +5,7 @@ import './styles/Map.scss';
 
 import React from 'react';
 import _ from 'lodash';
-import {Map, TileLayer, ZoomControl, FeatureGroup, Circle, Polyline} from 'react-leaflet';
+import {Map, TileLayer, ZoomControl, FeatureGroup} from 'react-leaflet';
 import {EditControl} from 'react-leaflet-draw';
 
 import emitter from './ev';
@@ -47,20 +47,23 @@ class MapComponent extends React.Component {
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
         <FeatureGroup>
-          <EditControl
-            ref='edit'
-            position='topright'
-            onEdited={this._onEdited.bind(this)}
-            onCreated={this._onCreated.bind(this)}
-            onDeleted={this._onDeleted.bind(this)}
-            draw={{
-              circle: false,
-              marker: false,
-            }}
-          />
+          {
+            _.isNil(this.props.test) ? (<EditControl
+              ref='edit'
+              position='topright'
+              onEdited={this._onEdited.bind(this)}
+              onCreated={this._onCreated.bind(this)}
+              onDeleted={this._onDeleted.bind(this)}
+              xxx={JSON.stringify(this.state.jsonObj)}
+              draw={{
+                circle: false,
+                marker: false,
+              }}
+            />) : null
+          }
           {
             _.map(this.state.jsonObj.features, (feature) => (
-              geojsonParse(feature)
+              this.props.parser(feature)
             ))
           }
         </FeatureGroup>
