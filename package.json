@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "dev": "parcel index.html -p 2333",
     "build": "parcel build index.html",
     "gh-pages": "parcel build index.html --no-content-hash --out-dir docs --public-url ."

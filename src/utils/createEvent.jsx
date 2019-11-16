@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {coordTransform} from './coordTransform';
+import coordTransform from './coordTransform';
 
 function createEvent(feature){
   let coordinates;
@@ -23,9 +23,7 @@ function createEvent(feature){
       options: {positions: coordinates, properties: feature.properties},
       _latlngs: coordTransform([coordinates], 'latlngArr', 'latlngObj')
     }}}};
-  default:
-    return null;
   }
 }
 
-export {createEvent};
+export default createEvent;

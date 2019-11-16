@@ -4,15 +4,17 @@ import _ from 'lodash';
 
 import emitter from '../ev';
 import PopupCard from './PopupCard';
-import {createEvent} from '../utils/createEvent';
+import createEvent from '../utils/createEvent';
 import {featureConfig} from '../config';
+import {
+  pointFeature1 as testFeature1,
+  pointFeature2 as testFeature2
+} from '../../__test__/data/features/Point';
 
 describe('PopupCard', () => {
   const mockFunc = jest.fn();
   emitter.on('editObj', mockFunc);
   const mockRef = {current: {leafletElement: {options: {leaflet: {map: {closePopup: mockFunc}}}}}};
-  const testFeature1 = {'type': 'Feature', 'properties': {}, 'geometry': {'type': 'Point', 'coordinates': [-0.08356532689164366, 51.51300494732007]}};
-  const testFeature2 = {'type': 'Feature', 'properties': {'color': '#123456', 'weight': 120, 'opacity': 0.233, 'radius': 20, 'fillColor': '#654321', 'fillOpacity': 0.05}, 'geometry': {'type': 'Point', 'coordinates': [-0.08356532689164366, 51.51300494732007]}};
   const saveButton = (wrapper) => (wrapper.find({color: 'warning'}));
   const cancelButton = (wrapper) => (wrapper.find({color: 'secondary'}));
   const deleteButton = (wrapper) => (wrapper.find({color: 'danger'}));
@@ -42,6 +44,23 @@ describe('PopupCard', () => {
     _.forEach(featureConfig.validKeys['Point'], (key) => {
       expect(wrapper.find({inputkey: key}).at(1).props().value).toEqual(testFeature2.properties[key]);
     });
+  });
+  it('Invalid props', () => {
+    let testFeature3 = _.cloneDeep(testFeature2);
+    testFeature3.properties.color = '123456';
+    const wrapper = mount(
+      <PopupCard
+        feature={testFeature3}
+        validKeys={featureConfig.validKeys['Point']}
+        closeRef={mockRef}
+      />
+    );
+    expect(wrapper.instance().valid['color']).toEqual(false);
+    expect(wrapper.instance().valid['radius']).toEqual(true);
+    expect(wrapper.instance().valid['weight']).toEqual(true);
+    expect(wrapper.instance().valid['opacity']).toEqual(true);
+    expect(wrapper.instance().valid['fillColor']).toEqual(true);
+    expect(wrapper.instance().valid['fillOpacity']).toEqual(true);
   });
   it('Edit and save', () => {
     const wrapper = mount(

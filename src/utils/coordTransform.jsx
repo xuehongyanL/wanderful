@@ -12,8 +12,6 @@ function coordTransformSingleRecord(origin, fromMode, toMode){
   case 'latlngArr':
     middleware = {lat: origin[0], lng: origin[1]};
     break;
-  default:
-    return origin;
   }
   switch(toMode){
   case 'latlngObj':
@@ -22,8 +20,6 @@ function coordTransformSingleRecord(origin, fromMode, toMode){
     return [middleware.lng, middleware.lat];
   case 'latlngArr':
     return [middleware.lat, middleware.lng];
-  default:
-    return origin;
   }
 }
 
@@ -57,4 +53,4 @@ function coordTransform(origin, fromMode, toMode){
   }
 }
 
-export {coordTransform};
+export default coordTransform;

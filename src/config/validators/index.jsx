@@ -13,8 +13,6 @@ function validator(value, key){
   case 'weight':
   case 'radius':
     return positiveValidator(value);
-  default:
-    return false;
   }
 }
 
