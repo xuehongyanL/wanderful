@@ -6,8 +6,7 @@
   "scripts": {
     "test": "jest --coverage",
     "dev": "parcel index.html -p 2333",
-    "build": "parcel build index.html",
-    "gh-pages": "parcel build index.html --no-content-hash --out-dir docs --public-url ."
+    "build": "parcel build index.html --no-content-hash --out-dir docs --public-url ."
   },
   "jest": {
     "setupFiles": [

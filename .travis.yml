@@ -9,3 +9,13 @@ install:
   - yarn global add coveralls
 script:
   - jest --coverage --coverageReporters=text-lcov | coveralls
+  - yarn build
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: ./docs/
+  target_branch: gh-pages
+  verbose: true
+  on:
+    branch: master
