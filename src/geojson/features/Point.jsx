@@ -5,12 +5,7 @@ import {featureConfig} from '../../config';
 function Point(latlng, properties){
   return {
     'type': 'Feature',
-    'properties': _.pick(properties, _.filter(
-      _.keys(properties),
-      (elem) => (
-        _.includes(featureConfig.validKeys['Point'], elem)
-      )
-    )),
+    'properties': _.pick(properties, featureConfig.validKeys['Point']),
     'geometry': {
       'type': 'Point',
       'coordinates': [latlng.lng, latlng.lat]

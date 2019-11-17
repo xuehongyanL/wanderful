@@ -3,9 +3,11 @@ import _ from 'lodash';
 import {Polyline, CircleMarker, Polygon, Popup} from 'react-leaflet';
 
 import {featureConfig} from '../config';
-import createLineStringComponent from '../components/LineStringComponent';
-import createPointComponent from '../components/PointComponent';
-import createPolygonComponent from '../components/PolygonComponent';
+import {
+  createLineStringComponent,
+  createPointComponent,
+  createPolygonComponent
+} from '../components';
 
 function geojsonParse(feature){
   if(_.has(feature, 'geometry.type') === false) return null;

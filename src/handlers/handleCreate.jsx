@@ -1,9 +1,11 @@
+import _ from 'lodash';
+
 import emitter from '../ev';
 import _JSON from '../utils/json';
 import {LineString, Point, Polygon} from '../geojson/features';
 
 function handleCreate(self, e){
-  let newObj = self.jsonObj;
+  let newObj = _.cloneDeep(self.jsonObj);
   switch(e.layerType){
   case 'circlemarker':
     newObj.features.push(Point(e.layer._latlng, {}));
