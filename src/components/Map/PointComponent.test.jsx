@@ -3,12 +3,12 @@ import {mount} from 'enzyme';
 import {FeatureGroup, Map, CircleMarker} from 'react-leaflet';
 
 import createPointComponent from './PointComponent';
-import {featureConfig} from '../config';
+import {featureConfig} from '../../config';
 import {
   pointFeature1,
   pointFeature2,
   pointFeature3
-} from '../../__test__/data/features/Point';
+} from '../../../__test__/data/features/Point';
 
 jest.mock('leaflet');
 

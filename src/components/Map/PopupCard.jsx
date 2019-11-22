@@ -2,9 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import {Button, Input, InputGroup, ListGroup, ListGroupItem} from 'reactstrap';
 
-import emitter from '../ev';
-import {featureConfig} from '../config';
-import createEvent from '../utils/createEvent';
+import emitter from '../../ev';
+import {featureConfig} from '../../config';
+import createEvent from '../../utils/createEvent';
 
 class PopupCard extends React.Component {
   constructor(props){

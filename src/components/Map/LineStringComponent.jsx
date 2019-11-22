@@ -2,9 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import {Polyline, Popup} from 'react-leaflet';
 
-import {featureConfig} from '../config';
+import {featureConfig} from '../../config';
 import PopupCard from './PopupCard';
-import randomKey from '../utils/randomKey';
+import randomKey from '../../utils/randomKey';
 
 function createLineStringComponent(feature){
   let closeRef = React.createRef();

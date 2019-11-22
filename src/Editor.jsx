@@ -5,6 +5,7 @@ import 'brace/mode/json';
 import 'brace/theme/github';
 import emitter from './ev';
 import {geojsonTransform} from './geojson';
+import saveAs from 'file-saver';
 
 class Editor extends React.Component {
   constructor(props){
@@ -16,6 +17,10 @@ class Editor extends React.Component {
     emitter.on('text', (text) => {
       self.setState({value: text});
       self.props.onUpdate(text);
+    });
+    emitter.on('save', () => {
+      let blob = new Blob([this.state.value], {type: 'text/json;charset=utf-8'});
+      saveAs(blob, 'geo.json');
     });
   }
   _onChange(newValue){

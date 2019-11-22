@@ -2,14 +2,14 @@ import React from 'react';
 import {mount} from 'enzyme';
 import _ from 'lodash';
 
-import emitter from '../ev';
+import emitter from '../../ev';
 import PopupCard from './PopupCard';
-import createEvent from '../utils/createEvent';
-import {featureConfig} from '../config';
+import createEvent from '../../utils/createEvent';
+import {featureConfig} from '../../config';
 import {
   pointFeature1 as testFeature1,
   pointFeature2 as testFeature2
-} from '../../__test__/data/features/Point';
+} from '../../../__test__/data/features/Point';
 
 describe('PopupCard', () => {
   const mockFunc = jest.fn();

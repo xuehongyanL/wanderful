@@ -3,7 +3,7 @@ import {
   createLineStringComponent,
   createPointComponent,
   createPolygonComponent
-} from '../components';
+} from '../components/Map';
 
 jest.mock('../components');
 

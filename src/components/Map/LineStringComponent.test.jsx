@@ -3,12 +3,12 @@ import {mount} from 'enzyme';
 import {FeatureGroup, Map, Polyline} from 'react-leaflet';
 
 import createLineStringComponent from './LineStringComponent';
-import {featureConfig} from '../config';
+import {featureConfig} from '../../config';
 import {
   lineStringFeature1,
   lineStringFeature2,
   lineStringFeature3
-} from '../../__test__/data/features/LineString';
+} from '../../../__test__/data/features/LineString';
 
 jest.mock('leaflet');
 

@@ -3,12 +3,12 @@ import {mount} from 'enzyme';
 import {FeatureGroup, Map, Polygon} from 'react-leaflet';
 
 import createPolygonComponent from './PolygonComponent';
-import {featureConfig} from '../config';
+import {featureConfig} from '../../config';
 import {
   polygonFeature1,
   polygonFeature2,
   polygonFeature3
-} from '../../__test__/data/features/Polygon';
+} from '../../../__test__/data/features/Polygon';
 
 jest.mock('leaflet');
 

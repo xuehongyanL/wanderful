@@ -7,7 +7,7 @@ import {
   createLineStringComponent,
   createPointComponent,
   createPolygonComponent
-} from '../components';
+} from '../components/Map';
 
 function geojsonParse(feature){
   if(_.has(feature, 'geometry.type') === false) return null;
