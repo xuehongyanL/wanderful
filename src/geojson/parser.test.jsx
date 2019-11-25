@@ -5,7 +5,7 @@ import {
   createPolygonComponent
 } from '../components/Map';
 
-jest.mock('../components');
+jest.mock('../components/Map');
 
 describe('Geojson parser', () => {
   beforeEach(() => {

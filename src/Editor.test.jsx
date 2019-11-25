@@ -1,10 +1,12 @@
 import React from 'react';
 import {mount, render} from 'enzyme';
+import saveAs from 'file-saver';
 
 import emitter from './ev';
 import Editor from './Editor';
 import {geojsonTransform} from './geojson';
 
+jest.mock('file-saver');
 jest.mock('./geojson/transform');
 
 describe('Editor', () => {
@@ -32,5 +34,10 @@ describe('Editor', () => {
     wrapper.instance()._onBlur(testTxt2);
     expect(geojsonTransform.mock.calls.length).toEqual(1);
     expect(geojsonTransform.mock.calls[0][0]).toEqual(testTxt1);
+  });
+  it('Save handler', () => {
+    emitter.emit('save');
+    expect(saveAs.mock.calls.length).toEqual(1);
+    expect(saveAs.mock.calls[0][0]).toEqual(new Blob([testTxt1], {type: 'text/json;charset=utf-8'}));
   });
 });

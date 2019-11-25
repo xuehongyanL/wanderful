@@ -13,7 +13,6 @@ class RightUpToolbar extends React.Component {
     };
   }
   _onImport(){
-    console.log(this.fileRef.current);
     document.getElementById('fileInput').click();
   }
   _onExport(){
