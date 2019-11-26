@@ -10,16 +10,23 @@ import {EditControl} from 'react-leaflet-draw';
 
 import emitter from './ev';
 import {geojsonParse} from './geojson';
+import {mapConfig} from './config';
 
 class MapComponent extends React.Component {
   constructor(props){
     super(props);
-    this.state = {jsonObj: {type: 'FeatureCollection', features: []}};
+    this.state = {
+      jsonObj: {type: 'FeatureCollection', features: []},
+      mapConfig: mapConfig['OpenStreetMap']
+    };
   }
   componentDidMount() {
     let self = this;
     emitter.on('json', (jsonObj) => {
       self.setState({jsonObj: _.cloneDeep(jsonObj)});
+    });
+    emitter.on('map', (key) => {
+      self.setState({mapConfig: mapConfig[key]});
     });
   }
   _onEdited(e){
@@ -43,8 +50,8 @@ class MapComponent extends React.Component {
       <Map center={position} zoom={13} zoomControl={false}>
         <ZoomControl position="topright" />
         <TileLayer
-          attribution='OpenStreetMap'
-          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          attribution={this.state.mapConfig.attribution}
+          url={this.state.mapConfig.url}
         />
         <FeatureGroup>
           {
