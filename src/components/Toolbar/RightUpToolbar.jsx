@@ -1,5 +1,17 @@
 import React from 'react';
-import {Button, ButtonGroup, Input} from 'reactstrap';
+import {
+  Button,
+  ButtonGroup,
+  Input,
+  ListGroup,
+  ListGroupItem,
+  PopoverBody,
+  UncontrolledPopover
+} from 'reactstrap';
+import i18n from 'i18next';
+import {withTranslation} from 'react-i18next';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faLanguage} from '@fortawesome/free-solid-svg-icons';
 
 import emitter from '../../ev';
 
@@ -22,8 +34,9 @@ class RightUpToolbar extends React.Component {
     this.reader.readAsText(e.target.files[0]);
   }
   render(){
+    const {t} = this.props;
     return (
-      <ButtonGroup size={'sm'}>
+      <div className={'clearfix'}>
         <Input
           type="file"
           id="fileInput"
@@ -32,16 +45,48 @@ class RightUpToolbar extends React.Component {
           style={{display: 'none'}}
         />
         <Button
+          size={'sm'}
           color="secondary"
           onClick={this._onImport.bind(this)}
-        >Import</Button>
+          className={'float-left'}
+        >{t('Import')}</Button>
         <Button
+          size={'sm'}
           color="secondary"
           onClick={this._onExport.bind(this)}
-        >Export</Button>
-      </ButtonGroup>
+          className={'float-left'}
+        >{t('Export')}</Button>
+        <Button
+          id="changeLanguage"
+          color="secondary"
+          className={'float-right'}
+          style={{padding: '0 0.5rem 0 0.5rem'}}
+        >
+          <FontAwesomeIcon icon={faLanguage} style={{fontSize: '1.8rem'}} />
+        </Button>
+        <UncontrolledPopover trigger="legacy" placement="bottom" target="changeLanguage">
+          <PopoverBody
+            style={{
+              backgroundColor: 'var(--secondary)',
+              borderRadius: '0.3rem',
+              padding: '0.5rem'
+            }}
+          >
+            <ListGroup>
+              <ListGroupItem
+                action
+                onClick={() => {i18n.changeLanguage('en');}}
+              >{t('lang-en')}</ListGroupItem>
+              <ListGroupItem
+                action
+                onClick={() => {i18n.changeLanguage('zh-Hans');}}
+              >{t('lang-zh-Hans')}</ListGroupItem>
+            </ListGroup>
+          </PopoverBody>
+        </UncontrolledPopover>
+      </div>
     );
   }
 };
 
-export default RightUpToolbar;
+export default withTranslation()(RightUpToolbar);

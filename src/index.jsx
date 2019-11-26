@@ -3,6 +3,7 @@ import './styles/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import './i18n';
 import MapComponent from './Map';
 import Editor from './Editor';
 import Control from './Controller';
