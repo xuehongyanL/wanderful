@@ -90,3 +90,4 @@ class RightUpToolbar extends React.Component {
 };
 
 export default withTranslation()(RightUpToolbar);
+export {RightUpToolbar as RightUpToolbarUnwrapped};

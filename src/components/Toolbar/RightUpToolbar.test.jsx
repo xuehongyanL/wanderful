@@ -3,7 +3,7 @@ import {mount} from 'enzyme';
 import {Button, Input} from 'reactstrap';
 
 import emitter from '../../ev';
-import RightUpToolbar from './RightUpToolbar';
+import RightUpToolbar, {RightUpToolbarUnwrapped} from './RightUpToolbar';
 
 describe('Right up toolbar', () => {
   const wrapper = mount(
@@ -12,7 +12,7 @@ describe('Right up toolbar', () => {
   it('Import', (end) => {
     const importMock = jest.fn();
     emitter.on('text', () => {end();});
-    wrapper.instance()._onImport();
+    wrapper.find(RightUpToolbarUnwrapped).instance()._onImport();
     wrapper.find(Input).simulate('change', {
       target: {files: {length: 1, 0: new File(['foo', 'bar'], 'foobar.txt')}}
     });
@@ -20,7 +20,7 @@ describe('Right up toolbar', () => {
   it('Export', () => {
     const exportMock = jest.fn();
     emitter.on('save', exportMock);
-    wrapper.instance()._onExport();
+    wrapper.find(RightUpToolbarUnwrapped).instance()._onExport();
     expect(exportMock.mock.calls.length).toEqual(1);
   });
 });
