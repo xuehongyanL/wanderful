@@ -9,15 +9,15 @@ import {
   createPolygonComponent
 } from '../components/Map';
 
-function geojsonParse(feature){
+function geojsonParse(feature, shift){
   if(_.has(feature, 'geometry.type') === false) return null;
   switch(feature.geometry.type){
   case 'LineString':
-    return createLineStringComponent(feature);
+    return createLineStringComponent(feature, shift);
   case 'Point':
-    return createPointComponent(feature);
+    return createPointComponent(feature, shift);
   case 'Polygon':
-    return createPolygonComponent(feature);
+    return createPolygonComponent(feature, shift);
   default:
     return null;
   }

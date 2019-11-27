@@ -5,7 +5,7 @@ import _JSON from '../utils/json';
 import {LineString, Point, Polygon} from '../geojson/features';
 import _featureEqual from '../utils/featureCompare';
 
-function handleDelete(self, e){
+function handleDelete(self, e, shift){
   let newObj = _.cloneDeep(self.jsonObj);
   _.forEach(e.layers._layers, (layer) => {
     let toDeleteObj;
@@ -20,14 +20,14 @@ function handleDelete(self, e){
         toDeleteObj = LineString(layer._latlngs, layer.options);
       }
     }
-    newObj = _.cloneDeep(deleteObj(newObj, toDeleteObj));
+    newObj = _.cloneDeep(deleteObj(newObj, toDeleteObj, shift));
   });
   emitter.emit('text', _JSON.stringify(newObj));
 }
 
-function deleteObj(oldObj, toDeleteObj){
+function deleteObj(oldObj, toDeleteObj, shift){
   let newObj = oldObj.features;
-  let deleteIdx = _.findIndex(newObj, (obj) => _featureEqual(obj, toDeleteObj));
+  let deleteIdx = _.findIndex(newObj, (obj) => _featureEqual(obj, toDeleteObj, shift));
   if(deleteIdx !== -1) newObj.splice(deleteIdx, 1);
   oldObj.features = newObj;
   return oldObj;

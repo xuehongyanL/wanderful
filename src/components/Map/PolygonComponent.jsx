@@ -6,13 +6,13 @@ import {featureConfig} from '../../config';
 import PopupCard from './PopupCard';
 import randomKey from '../../utils/randomKey';
 
-function createPolygonComponent(feature){
+function createPolygonComponent(feature, shift){
   let closeRef = React.createRef();
   let props = feature.properties;
   return (
     <Polygon
       key={randomKey()}
-      positions={_.map(_.initial(feature.geometry.coordinates[0]), (plot) => [plot[1], plot[0]])}
+      positions={_.map(_.initial(feature.geometry.coordinates[0]), (plot) => _.reverse(_.cloneDeep(shift(...plot))))}
       {
       ...
       _.zipObject(featureConfig.validKeys['Polygon'], _.map(featureConfig.validKeys['Polygon'], (key) => {

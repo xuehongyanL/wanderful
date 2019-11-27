@@ -11,14 +11,14 @@ class Controller {
   constructor(){
     let self = this;
     self.jsonObj = {'type': 'FeatureCollection', 'features': []};
-    emitter.on('createObj', (e) => {
-      handleCreate(self, e);
+    emitter.on('createObj', (e, unshift) => {
+      handleCreate(self, e, unshift);
     });
-    emitter.on('deleteObj', (e) => {
-      handleDelete(self, e);
+    emitter.on('deleteObj', (e, shift) => {
+      handleDelete(self, e, shift);
     });
-    emitter.on('editObj', (e) => {
-      handleEdit(self, e);
+    emitter.on('editObj', (e, shift, unshift) => {
+      handleEdit(self, e, shift, unshift);
     });
   }
   updateJSON(newJSON){

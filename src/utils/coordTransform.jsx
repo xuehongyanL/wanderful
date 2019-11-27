@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-function coordTransformSingleRecord(origin, fromMode, toMode){
+function coordTransformSingleRecord(origin, fromMode, toMode, shift){
   let middleware;
   switch(fromMode){
   case 'latlngObj':
@@ -13,6 +13,8 @@ function coordTransformSingleRecord(origin, fromMode, toMode){
     middleware = {lat: origin[0], lng: origin[1]};
     break;
   }
+  middleware = shift(middleware.lng, middleware.lat);
+  middleware = {lat: middleware[1], lng: middleware[0]};
   switch(toMode){
   case 'latlngObj':
     return middleware;
@@ -23,7 +25,8 @@ function coordTransformSingleRecord(origin, fromMode, toMode){
   }
 }
 
-function coordTransform(origin, fromMode, toMode){
+function coordTransform(origin, fromMode, toMode, shift){
+  if(_.isNil(shift)) shift = (lng, lat) => [lng, lat];
   let isRecord = false;
   switch(fromMode){
   case 'latlngObj':
@@ -44,11 +47,11 @@ function coordTransform(origin, fromMode, toMode){
     }
   }
   if(isRecord){
-    return coordTransformSingleRecord(origin, fromMode, toMode);
+    return coordTransformSingleRecord(origin, fromMode, toMode, shift);
   }
   else{
     return _.map(origin, (rec) => (
-      coordTransform(rec, fromMode, toMode)
+      coordTransform(rec, fromMode, toMode, shift)
     ));
   }
 }

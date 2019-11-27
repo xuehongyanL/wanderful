@@ -6,13 +6,13 @@ import {featureConfig} from '../../config';
 import PopupCard from './PopupCard';
 import randomKey from '../../utils/randomKey';
 
-function createPointComponent(feature){
+function createPointComponent(feature, shift){
   let closeRef = React.createRef();
   let props = feature.properties;
   return (
     <CircleMarker
       key={randomKey()}
-      center={[feature.geometry.coordinates[1], feature.geometry.coordinates[0]]}
+      center={_.reverse(_.cloneDeep(shift(...feature.geometry.coordinates)))}
       {
       ...
       _.zipObject(featureConfig.validKeys['Point'], _.map(featureConfig.validKeys['Point'], (key) => {

@@ -6,13 +6,13 @@ import {featureConfig} from '../../config';
 import PopupCard from './PopupCard';
 import randomKey from '../../utils/randomKey';
 
-function createLineStringComponent(feature){
+function createLineStringComponent(feature, shift){
   let closeRef = React.createRef();
   let props = feature.properties;
   return (
     <Polyline
       key={randomKey()}
-      positions={_.map(feature.geometry.coordinates, (plot) => [plot[1], plot[0]])}
+      positions={_.map(feature.geometry.coordinates, (plot) => _.reverse(_.cloneDeep(shift(...plot))))}
       {
       ...
       _.zipObject(featureConfig.validKeys['LineString'], _.map(featureConfig.validKeys['LineString'], (key) => {

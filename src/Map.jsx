@@ -31,21 +31,21 @@ class MapComponent extends React.Component {
   }
   _onEdited(e){
     console.log(e);
-    emitter.emit('editObj', e);
+    emitter.emit('editObj', e, this.state.mapConfig.shift, this.state.mapConfig.unshift);
   }
   _onCreated(e){
     console.log(e);
-    emitter.emit('createObj', e);
+    emitter.emit('createObj', e, this.state.mapConfig.unshift);
     let createId = e.layer._leaflet_id;
     let layerContainer = this.refs.edit.leafletElement.options.edit.featureGroup;
     layerContainer.removeLayer(layerContainer._layers[createId]);
   }
   _onDeleted(e){
     console.log(e);
-    emitter.emit('deleteObj', e);
+    emitter.emit('deleteObj', e, this.state.mapConfig.shift);
   }
   render() {
-    const position = [51.505, -0.09];
+    const position = [39.90677249, 116.39123275];
     return (
       <Map center={position} zoom={13} zoomControl={false}>
         <ZoomControl position="topright" />
@@ -70,7 +70,7 @@ class MapComponent extends React.Component {
           }
           {
             _.map(this.state.jsonObj.features, (feature) => (
-              this.props.parser(feature)
+              this.props.parser(feature, this.state.mapConfig.shift)
             ))
           }
         </FeatureGroup>

@@ -1,9 +1,11 @@
 import _ from 'lodash';
 
 import {featureConfig} from '../config';
+import coordTransform from './coordTransform';
 
-function _featureEqual(feature1, feature2){
-  if(_.isEqual(feature1.geometry, feature2.geometry) === false) return false;
+function _featureEqual(feature1, feature2, shift){
+  if(!_.isEqual(feature2.geometry.type, feature1.geometry.type)) return false;
+  if(!_.isEqual(feature2.geometry.coordinates, coordTransform(feature1.geometry.coordinates, 'lnglatArr', 'lnglatArr', shift))) return false;
   let ret = true;
   // _.forEach(featureConfig.validKeys[feature1.geometry.type], (key) => {
   //   let val1 = (_.isNil(feature1.properties[key])) ? featureConfig.default[key] : feature1.properties[key];
