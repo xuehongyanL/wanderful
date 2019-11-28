@@ -6,12 +6,14 @@ import emitter from './ev';
 import MapComponent from './Map';
 import geojsonParse from './geojson/parser';
 import {CircleMarker, Polygon, Polyline} from 'react-leaflet';
+import mapConfig from './config/mapConfig';
 import {pointFeature1} from '../__test__/data/features/Point';
 import {lineStringFeature1} from '../__test__/data/features/LineString';
 import {polygonFeature1} from '../__test__/data/features/Polygon';
+import {noShift} from './config/shifts';
 
 describe('MapComponent', () => {
-  const parserMock = jest.fn();
+  const parserMock = jest.fn((feature, shift) => {expect(shift(1, 2)).toEqual([1, 2]);});
   const testData = {
     'type': 'FeatureCollection',
     'features': [pointFeature1, lineStringFeature1, polygonFeature1]
@@ -22,7 +24,7 @@ describe('MapComponent', () => {
       wrapper.update();
       expect(wrapper.state('jsonObj')).toEqual(testData);
       expect(parserMock.mock.calls.length).toEqual(3);
-      expect(parserMock.mock.calls).toEqual(_.map(testData.features, (feature) => ([feature])));
+      expect(parserMock.mock.calls).toEqual(_.map(testData.features, (feature) => ([feature, noShift])));
     });
   });
   it('Json handler', () => {
@@ -62,5 +64,13 @@ describe('MapComponent', () => {
     wrapper.instance()._onDeleted(233);
     expect(deleteMock.mock.calls.length).toEqual(1);
     expect(deleteMock.mock.calls[0][0]).toEqual(233);
+  });
+  it('Change map config', () => {
+    emitter.emit('map', 'GoogleMap');
+    wrapper.update();
+    expect(wrapper.state('mapConfig')).toEqual(mapConfig.GoogleMap);
+    emitter.emit('map', 'GaodeMap');
+    wrapper.update();
+    expect(wrapper.state('mapConfig')).toEqual(mapConfig.GaodeMap);
   });
 });

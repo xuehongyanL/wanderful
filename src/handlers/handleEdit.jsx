@@ -5,6 +5,7 @@ import _JSON from '../utils/json';
 import {LineString, Point, Polygon} from '../geojson/features';
 import coordTransform from '../utils/coordTransform';
 import _featureEqual from '../utils/featureCompare';
+import {featureConfig} from '../config';
 
 function handleEdit(self, e, shift, unshift){
   let newObj = _.cloneDeep(self.jsonObj);
@@ -35,7 +36,12 @@ function editObj(oldObj, toEditObj, toReplaceObj, properties, shift, unshift){
   if(editIdx !== -1){
     newObj[editIdx].geometry = toReplaceObj.geometry;
     newObj[editIdx].geometry.coordinates = coordTransform(toReplaceObj.geometry.coordinates, 'lnglatArr', 'lnglatArr', unshift);
-    if(!_.isNil(properties)) newObj[editIdx].properties = properties;
+    if(!_.isNil(properties)) newObj[editIdx].properties = _.pick(properties, _.filter(
+      _.keys(properties),
+      (elem) => (
+        _.includes(featureConfig.validKeys[newObj[editIdx].geometry.type], elem)
+      )
+    ));
   }
   oldObj.features = newObj;
   return oldObj;

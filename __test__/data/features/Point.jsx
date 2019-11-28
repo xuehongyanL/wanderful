@@ -1,4 +1,4 @@
-const pointCoordinates = [-0.08356532689164366, 51.51300494732007];
+const pointCoordinates = [116.39123275, 39.90677249];
 const pointFeature1 = {
   'type': 'Feature',
   'properties': {},

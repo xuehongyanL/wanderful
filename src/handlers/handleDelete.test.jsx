@@ -3,6 +3,7 @@ import _JSON from '../utils/json';
 import handleDelete from './handleDelete';
 import createEvent from '../utils/createEvent';
 import {featureGroupObj} from '../../__test__/data/features/FeatureGroup';
+import {noShift, gcj02towgs84, wgs84togcj02} from '../config/shifts';
 
 describe('Delete handler', () => {
   const mockFunc = jest.fn();
@@ -13,7 +14,7 @@ describe('Delete handler', () => {
   });
   it('Delete circlemarker', () => {
     let e = {...createEvent(featureGroupObj.features[0])};
-    handleDelete(mockSelf, e);
+    handleDelete(mockSelf, e, noShift);
     expect(mockFunc.mock.calls.length).toEqual(1);
     expect(mockFunc.mock.calls[0][0]).toEqual(_JSON.stringify({
       'type': 'FeatureCollection',
@@ -22,7 +23,7 @@ describe('Delete handler', () => {
   });
   it('Delete polyline', () => {
     let e = {...createEvent(featureGroupObj.features[1])};
-    handleDelete(mockSelf, e);
+    handleDelete(mockSelf, e, noShift);
     expect(mockFunc.mock.calls.length).toEqual(1);
     expect(mockFunc.mock.calls[0][0]).toEqual(_JSON.stringify({
       'type': 'FeatureCollection',
@@ -31,7 +32,7 @@ describe('Delete handler', () => {
   });
   it('Delete polygon', () => {
     let e = {...createEvent(featureGroupObj.features[2])};
-    handleDelete(mockSelf, e);
+    handleDelete(mockSelf, e, noShift);
     expect(mockFunc.mock.calls.length).toEqual(1);
     expect(mockFunc.mock.calls[0][0]).toEqual(_JSON.stringify({
       'type': 'FeatureCollection',
@@ -40,11 +41,20 @@ describe('Delete handler', () => {
   });
   it('Delete rectangle', () => {
     let e = {...createEvent(featureGroupObj.features[2])};
-    handleDelete(mockSelf, e);
+    handleDelete(mockSelf, e, noShift);
     expect(mockFunc.mock.calls.length).toEqual(1);
     expect(mockFunc.mock.calls[0][0]).toEqual(_JSON.stringify({
       'type': 'FeatureCollection',
       'features': [featureGroupObj.features[0], featureGroupObj.features[1]]
+    }));
+  });
+  it('With shift', () => {
+    let e = {...createEvent(featureGroupObj.features[0])};
+    handleDelete(mockSelf, e, noShift);
+    expect(mockFunc.mock.calls.length).toEqual(1);
+    expect(mockFunc.mock.calls[0][0]).toEqual(_JSON.stringify({
+      'type': 'FeatureCollection',
+      'features': [featureGroupObj.features[1], featureGroupObj.features[2]]
     }));
   });
 });
