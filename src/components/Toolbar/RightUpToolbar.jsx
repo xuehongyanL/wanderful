@@ -76,11 +76,11 @@ class RightUpToolbar extends React.Component {
               <ListGroupItem
                 action
                 onClick={() => {i18n.changeLanguage('en');}}
-              >{t('lang-en')}</ListGroupItem>
+              >English</ListGroupItem>
               <ListGroupItem
                 action
                 onClick={() => {i18n.changeLanguage('zh-Hans');}}
-              >{t('lang-zh-Hans')}</ListGroupItem>
+              >简体中文</ListGroupItem>
             </ListGroup>
           </PopoverBody>
         </UncontrolledPopover>
