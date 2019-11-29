@@ -17,7 +17,7 @@ class MapComponent extends React.Component {
     super(props);
     this.state = {
       jsonObj: {type: 'FeatureCollection', features: []},
-      mapConfig: mapConfig['OpenStreetMap']
+      mapConfig: mapConfig['map-OSM']
     };
   }
   componentDidMount() {

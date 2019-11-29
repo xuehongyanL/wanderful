@@ -1,4 +1,7 @@
 {
   "Import": "Import",
-  "Export": "Export"
+  "Export": "Export",
+  "map-OSM": "OpenStreetMap",
+  "map-Google": "Google Maps",
+  "map-Gaode": "AutoNavi"
 }

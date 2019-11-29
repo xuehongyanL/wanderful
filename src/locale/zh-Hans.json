@@ -1,4 +1,7 @@
 {
   "Import": "导入",
-  "Export": "导出"
+  "Export": "导出",
+  "map-OSM": "OpenStreetMap",
+  "map-Google": "谷歌地图",
+  "map-Gaode": "高德地图"
 }

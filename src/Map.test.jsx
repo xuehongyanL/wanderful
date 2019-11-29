@@ -66,11 +66,11 @@ describe('MapComponent', () => {
     expect(deleteMock.mock.calls[0][0]).toEqual(233);
   });
   it('Change map config', () => {
-    emitter.emit('map', 'GoogleMap');
+    emitter.emit('map', 'map-Google');
     wrapper.update();
-    expect(wrapper.state('mapConfig')).toEqual(mapConfig.GoogleMap);
-    emitter.emit('map', 'GaodeMap');
+    expect(wrapper.state('mapConfig')).toEqual(mapConfig['map-Google']);
+    emitter.emit('map', 'map-Gaode');
     wrapper.update();
-    expect(wrapper.state('mapConfig')).toEqual(mapConfig.GaodeMap);
+    expect(wrapper.state('mapConfig')).toEqual(mapConfig['map-Gaode']);
   });
 });
