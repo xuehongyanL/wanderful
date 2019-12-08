@@ -1,7 +1,12 @@
 {
   "Import": "导入",
   "Export": "导出",
+  "Search": "搜索",
   "map-OSM": "OpenStreetMap",
   "map-Google": "谷歌地图",
-  "map-Gaode": "高德地图"
+  "map-Gaode": "高德地图",
+  "PoiSource": "POI源",
+  "poi-OSM": "OpenStreetMap",
+  "poi-Baidu": "百度地图",
+  "poi-Gaode": "高德地图"
 }

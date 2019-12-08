@@ -1,7 +1,12 @@
 {
   "Import": "Import",
   "Export": "Export",
+  "Search": "Search",
   "map-OSM": "OpenStreetMap",
   "map-Google": "Google Maps",
-  "map-Gaode": "AutoNavi"
+  "map-Gaode": "AutoNavi",
+  "PoiSource": "POI source",
+  "poi-OSM": "OpenStreetMap",
+  "poi-Baidu": "Baidu Maps",
+  "poi-Gaode": "AutoNavi"
 }

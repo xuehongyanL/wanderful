@@ -7,10 +7,12 @@ import React from 'react';
 import _ from 'lodash';
 import {Map, TileLayer, ZoomControl, FeatureGroup} from 'react-leaflet';
 import {EditControl} from 'react-leaflet-draw';
+import CustomControl from '@skyeer/react-leaflet-custom-control';
 
 import emitter from './ev';
 import {geojsonParse} from './geojson';
 import {mapConfig} from './config';
+import SearchBar from './components/Toolbar/SearchBar';
 
 class MapComponent extends React.Component {
   constructor(props){
@@ -49,6 +51,9 @@ class MapComponent extends React.Component {
     return (
       <Map center={position} zoom={13} zoomControl={false}>
         <ZoomControl position="topright" />
+        <CustomControl position="topleft">
+          <SearchBar />
+        </CustomControl>
         <TileLayer
           attribution={this.state.mapConfig.attribution}
           url={this.state.mapConfig.url}
