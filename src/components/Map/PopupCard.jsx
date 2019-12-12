@@ -30,7 +30,7 @@ class PopupCard extends React.Component {
   _checkInput(){
     let valid = true;
     _.forEach(this.props.validKeys, (key) => {
-      if(!featureConfig.validator(this.state[key], key)) {
+      if(!featureConfig.validator(this.state[key], key)){
         valid = false;
         return false;
       }

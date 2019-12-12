@@ -7,7 +7,7 @@ class _JSON {
       jsonObj = JSON.parse(text);
       return [jsonObj, null];
     }
-    catch(e) {
+    catch(e){
       return [null, e];
     }
   }

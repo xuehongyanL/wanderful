@@ -4,7 +4,7 @@ import coordTransform from './coordTransform';
 
 function createEvent(feature){
   let coordinates;
-  switch(feature.geometry.type) {
+  switch(feature.geometry.type){
   case 'LineString':
     coordinates = _.map(feature.geometry.coordinates, (plot) => [plot[1], plot[0]]);
     return {layers: {_layers: {0: {

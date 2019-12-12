@@ -30,7 +30,7 @@ function parseOSM(record){
   return {
     name: addressList[0],
     address: _.tail(addressList).join(', '),
-    latlng: {lat: record['lat'], lng: record['lon']}
+    latlng: {lat: Number(record['lat']), lng: Number(record['lon'])}
   };
 }
 

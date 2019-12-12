@@ -5,7 +5,7 @@ import './styles/Map.scss';
 
 import React from 'react';
 import _ from 'lodash';
-import {Map, TileLayer, ZoomControl, FeatureGroup} from 'react-leaflet';
+import {Map, CircleMarker, TileLayer, ZoomControl, FeatureGroup} from 'react-leaflet';
 import {EditControl} from 'react-leaflet-draw';
 import CustomControl from '@skyeer/react-leaflet-custom-control';
 
@@ -19,16 +19,32 @@ class MapComponent extends React.Component {
     super(props);
     this.state = {
       jsonObj: {type: 'FeatureCollection', features: []},
+      center: [39.90677249, 116.39123275],
+      zoom: 13,
+      showMarker: true,
+      markers: [],
       mapConfig: mapConfig['map-OSM']
     };
   }
-  componentDidMount() {
+  componentDidMount(){
     let self = this;
     emitter.on('json', (jsonObj) => {
       self.setState({jsonObj: _.cloneDeep(jsonObj)});
     });
     emitter.on('map', (key) => {
       self.setState({mapConfig: mapConfig[key]});
+    });
+    emitter.on('locate', (latlng, zoom, options) => {
+      self.setState({
+        center: [latlng.lat, latlng.lng],
+        zoom: zoom
+      });
+      if(options['marker'] === true){
+        self.setState({
+          showMarker: true,
+          markers: (options['clearPrev'] === true) ? [[latlng.lat, latlng.lng]] : [...this.state.markers, [latlng.lat, latlng.lng]]
+        });
+      };
     });
   }
   _onEdited(e){
@@ -46,10 +62,13 @@ class MapComponent extends React.Component {
     console.log(e);
     emitter.emit('deleteObj', e, this.state.mapConfig.shift);
   }
-  render() {
-    const position = [39.90677249, 116.39123275];
+  render(){
     return (
-      <Map center={position} zoom={13} zoomControl={false}>
+      <Map
+        center={this.state.center}
+        zoom={this.state.zoom}
+        zoomControl={false}
+      >
         <ZoomControl position="topright" />
         <CustomControl position="topleft">
           <SearchBar />
@@ -78,6 +97,13 @@ class MapComponent extends React.Component {
               this.props.parser(feature, this.state.mapConfig.shift)
             ))
           }
+        </FeatureGroup>
+        <FeatureGroup>
+          {this.state.showMarker ? (
+            _.map(this.state.markers, (latlng, idx) => (
+              <CircleMarker key={idx} center={latlng}></CircleMarker>
+            ))
+          ) : null}
         </FeatureGroup>
       </Map>
     );

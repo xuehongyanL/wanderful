@@ -56,6 +56,10 @@ class SearchBar extends React.Component {
       });
     }
   }
+  locatePoi(latlng){
+    let lnglat = poiConfig.sources[this.state.poiSource].unshift(latlng.lng, latlng.lat);
+    emitter.emit('locate', {lat: lnglat[1], lng: lnglat[0]}, 14, {clearPrev: true, marker: true});
+  }
   render(){
     const {t} = this.props;
     return (
@@ -99,7 +103,7 @@ class SearchBar extends React.Component {
                 <ListGroupItem key={idx} style={{padding: 0, border: 0}}>
                   <Card
                     style={{cursor: 'pointer'}}
-                    onClick={() => {}}
+                    onClick={() => {this.locatePoi(record['latlng']);}}
                   >
                     <CardBody>
                       <CardTitle tag="h4">{record['name']}</CardTitle>
