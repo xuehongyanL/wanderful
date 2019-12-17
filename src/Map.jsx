@@ -5,7 +5,7 @@ import './styles/Map.scss';
 
 import React from 'react';
 import _ from 'lodash';
-import {Map, CircleMarker, TileLayer, ZoomControl, FeatureGroup} from 'react-leaflet';
+import {Map, CircleMarker, Popup, TileLayer, ZoomControl, FeatureGroup} from 'react-leaflet';
 import {EditControl} from 'react-leaflet-draw';
 import CustomControl from '@skyeer/react-leaflet-custom-control';
 
@@ -42,7 +42,12 @@ class MapComponent extends React.Component {
       if(options['marker'] === true){
         self.setState({
           showMarker: true,
-          markers: (options['clearPrev'] === true) ? [[latlng.lat, latlng.lng]] : [...this.state.markers, [latlng.lat, latlng.lng]]
+          markers: (options['clearPrev'] === true) ? [
+            {latlng: [latlng.lat, latlng.lng], popup: options['popup']}
+          ] : [
+            ...this.state.markers,
+            {latlng: [latlng.lat, latlng.lng], popup: options['popup']}
+          ]
         });
       };
     });
@@ -100,8 +105,20 @@ class MapComponent extends React.Component {
         </FeatureGroup>
         <FeatureGroup>
           {this.state.showMarker ? (
-            _.map(this.state.markers, (latlng, idx) => (
-              <CircleMarker key={idx} center={latlng}></CircleMarker>
+            _.map(this.state.markers, (marker, idx) => (
+              <CircleMarker key={idx} center={marker.latlng} ref={(ref) => {if(ref) ref.leafletElement.openPopup();}}>
+                <Popup closeButton={false}>
+                  <div style={{
+                    // width: '20rem',
+                    height: 1.4 * 290 / marker.popup.length,
+                    textAlign: 'center',
+                    margin: 'auto',
+                    fontSize: 290 / marker.popup.length
+                  }}>
+                    {marker.popup}
+                  </div>
+                </Popup>
+              </CircleMarker>
             ))
           ) : null}
         </FeatureGroup>
