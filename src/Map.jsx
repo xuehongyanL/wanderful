@@ -106,7 +106,11 @@ class MapComponent extends React.Component {
         <FeatureGroup>
           {this.state.showMarker ? (
             _.map(this.state.markers, (marker, idx) => (
-              <CircleMarker key={idx} center={marker.latlng} ref={(ref) => {if(ref) ref.leafletElement.openPopup();}}>
+              <CircleMarker 
+                key={idx} 
+                center={((arr)=>({lat: arr[1], lng: arr[0]}))(this.state.mapConfig.shift(marker.latlng[1], marker.latlng[0]))}
+                ref={(ref) => {if(ref) ref.leafletElement.openPopup();}}
+              >
                 <Popup closeButton={false}>
                   <div style={{
                     // width: '20rem',
